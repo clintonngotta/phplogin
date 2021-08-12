@@ -13,4 +13,18 @@ function LoginUser($username, $password)
 {
     $con = dbConnection();
     $query = "SELECT * from users where username='$username' and password='$password'";
+    $results = mysqli_query($con, $query) or die(mysqli_error($con));
+    if (mysqli_num_rows($results) > 0) {
+        return true;
+    }
+}
+
+function SignUpUser($username, $password)
+{
+    $con = dbConnection();
+    $query = "INSERT INTO users VALUES(null, '" . $username . "', '" . md5($password) . "', '')";
+    $execution = mysqli_query($con, $query) or die(mysqli_error($con));
+    if ($execution) {
+        return true;
+    }
 }
