@@ -1,11 +1,13 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
 require('functions.php');
 $con = dbConnection();
 
-$username = isset($_POST['username']) ? $_POST['username'] : "";
-$password = isset($_POST['password']) ? $_POST['password'] : "";
+$username = isset($_POST['username']) ? mysqli_real_escape_string($con, $_POST['username']) : "";
+$password = isset($_POST['password']) ? mysqli_real_escape_string($con, $_POST['password']) : "";
 if (!empty($username) && !empty($password)) {
-    $check =  LoginUser($username, $password);
+    $check =  LoginUser($username, md5($password));
     if (!empty($check)) {
         $response = array(
             "status" => 0,
