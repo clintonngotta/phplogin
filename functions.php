@@ -8,6 +8,29 @@ function dbConnection()
         return $con;
     }
 }
+function GenericFetchData($table, $orderBy, $orderCriteria)
+{
+    $con = dbConnection();
+    $query = "SELECT * FROM $table ORDER BY $orderBy $orderCriteria";
+    $results = mysqli_query($con, $query) or die(mysqli_error($con));
+    if (mysqli_num_rows($results) > 0) {
+        return $results->fetch_assoc();
+    } else {
+        return [];
+    }
+}
+
+function GenericFetchDataById($table, $where, $id)
+{
+    $con = dbConnection();
+    $query = "SELECT * FROM $table WHERE $where =$id";
+    $results = mysqli_query($con, $query) or die(mysqli_error($con));
+    if (mysqli_num_rows($results) > 0) {
+        return $results->fetch_assoc();
+    } else {
+        return [];
+    }
+}
 
 function LoginUser($username, $password)
 {
